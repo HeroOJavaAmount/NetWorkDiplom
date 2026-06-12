@@ -1,0 +1,36 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+
+# Логи
+*.log
+
+# Системные файлы Windows
+Thumbs.db
+Desktop.ini
+
+# Системные файлы macOS
+.DS_Store
+
+# Временные файлы
+*.tmp
+*.bak
+*.swp
+*~
+
+# Дополнительно исключаем .ide (если есть)
+.ide/
