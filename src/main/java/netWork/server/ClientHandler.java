@@ -8,24 +8,25 @@ import netWork.fileUtil.Logger;
 
 public class ClientHandler implements Runnable {
     private final ServerIntf server;
-    private final Connection connection;
+    private final Session session;
     private final BufferedReader in;
     private final PrintWriter out;
     private final Logger logger;
 
-    public ClientHandler(ServerIntf server, Connection connection, Logger logger) {
+    public ClientHandler(ServerIntf server, Session session, Logger logger) {
         this.server = server;
-        this.connection = connection;
-        this.in = connection.getReader();
-        this.out = connection.getWriter();
+        this.session = session;
+        this.in = session.getReader();
+        this.out = session.getWriter();
         this.logger = logger;
     }
+
 
     @Override
     public void run() {
         try {
             out.println("SERVER:Добро пожаловать в чат!");
-            String clientName = connection.getUser().getName();
+            String clientName = session.getUser().getName();
             logger.log("Клиент " + clientName + " вошёл в чат");
             String msg;
             while ((msg = in.readLine()) != null) {
@@ -42,7 +43,7 @@ public class ClientHandler implements Runnable {
             logger.log("Ошибка соединения с клиентом: " + e.getMessage());
         } finally {
             server.unSenderClient(this);
-            connection.disconnect();
+            session.disconnect();
         }
     }
 
@@ -50,8 +51,8 @@ public class ClientHandler implements Runnable {
         out.println(msg);
     }
 
-    public Connection getConnection() {
-        return connection;
+    public Session getConnection() {
+        return session;
     }
 }
 

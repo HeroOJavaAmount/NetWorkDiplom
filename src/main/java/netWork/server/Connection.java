@@ -14,6 +14,7 @@ public class Connection implements Runnable {
     private PrintWriter toClient;
     private volatile boolean authenticated = false;
     private volatile boolean authenticatedChat = false;
+    private volatile boolean streamsDetached = false;
     private User user;
 
     public Connection(Socket client, Settings settings) {
@@ -71,6 +72,16 @@ public class Connection implements Runnable {
         return authenticated;
     }
 
+    public BufferedReader detachReader() {
+        streamsDetached = true;
+        return fromClient;
+    }
+
+    public PrintWriter detachWriter() {
+        streamsDetached = true;
+        return toClient;
+    }
+
     public BufferedReader getReader() {
         if (!authenticated) throw new IllegalStateException("Not authenticated");
         return fromClient;
@@ -86,17 +97,12 @@ public class Connection implements Runnable {
     }
 
     public void disconnect() {
-        try {
-            if (fromClient != null) fromClient.close();
-        } catch (IOException ignored) {
-        }
-        try {
-            if (toClient != null) toClient.close();
-        } catch (Exception ignored) {
-        }
-        try {
-            if (netClient != null) netClient.close();
-        } catch (IOException ignored) {
+        if (streamsDetached) {
+            try { if (netClient != null) netClient.close(); } catch (IOException ignored) {}
+        } else {
+            try { if (fromClient != null) fromClient.close(); } catch (IOException ignored) {}
+            try { if (toClient != null) toClient.close(); } catch (Exception ignored) {}
+            try { if (netClient != null) netClient.close(); } catch (IOException ignored) {}
         }
     }
 

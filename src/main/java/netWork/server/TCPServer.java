@@ -3,7 +3,9 @@ package netWork.server;
 import netWork.config.Settings;
 import netWork.fileUtil.Logger;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
@@ -33,7 +35,10 @@ public class TCPServer implements ServerIntf {
                     Connection conn = new Connection(socket, settings);
                     conn.run();
                     if (conn.isAuthenticated()) {
-                        ClientHandler handler = new ClientHandler(this, conn, serverLogger);
+                        BufferedReader reader = conn.detachReader();
+                        PrintWriter writer = conn.detachWriter();
+                        Session session = new SessionImpl(socket.getInetAddress(), conn.getUser(), socket, reader, writer);
+                        ClientHandler handler = new ClientHandler(this, session, serverLogger);
                         addClient(handler);
                         executor.execute(handler);
                     } else {
