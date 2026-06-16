@@ -1,4 +1,4 @@
- # 🌐 Курсовой проект - NetWork (Серверный чат)
+ # 🌐 Курсовой проект - NetWork (Упрошенный сетевой чат)
 ![TCP/IP](https://img.shields.io/badge/Network-TCP%2FIP-orange)
 ### Основные классы и особенности приложения и методов.
 <u> Application.java (пакет netWork)</u>
