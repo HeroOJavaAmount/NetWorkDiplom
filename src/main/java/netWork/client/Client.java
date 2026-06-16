@@ -78,6 +78,7 @@ public class Client {
                     out.println(TCProtocol.EXIT_COMMAND);
                     break;
                 }
+                clientLogger.log("Me: " + userInput);
                 out.println(userInput);
             }
 
