@@ -44,7 +44,6 @@ public class Connection implements Runnable {
                     toClient.println("Password:");
                     String password = fromClient.readLine();
                     if (password == null) break;
-
                     if (settings.getLoginPass(login).equalsIgnoreCase(password)) {
                         toClient.println("STATUS OK");
                         authenticated = true;
