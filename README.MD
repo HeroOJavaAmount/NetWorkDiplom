@@ -117,6 +117,101 @@ sequenceDiagram
 
 ## Диаграмма классов (общая)
 
+classDiagram
+    class TCPServer {
+        -port: int
+        -clients: List<ClientHandler>
+        -executor: ExecutorService
+        -serverLogger: Logger
+        +start(): void
+        +broadcastMessage(msg: String): void
+        +addClient(handler: ClientHandler): void
+        +removeClient(handler: ClientHandler): void
+    }
+
+    class ServerIntf {
+        <<interface>>
+        +start(): void
+        +broadcastMessage(msg: String): void
+        +addClient(handler: ClientHandler): void
+        +removeClient(handler: ClientHandler): void
+    }
+
+    class Connection {
+        -netClient: Socket
+        -fromClient: BufferedReader
+        -toClient: PrintWriter
+        -authenticated: boolean
+        -authenticatedChat: boolean
+        -user: User
+        +Connection(client: Socket, settings: Settings)
+        +run(): void
+        +isAuthenticated(): boolean
+        +getUser(): User
+        +getReader(): BufferedReader
+        +getWriter(): PrintWriter
+        +disconnect(): void
+    }
+
+    class ClientHandler {
+        -server: ServerIntf
+        -connection: Connection
+        -in: BufferedReader
+        -out: PrintWriter
+        -logger: Logger
+        -clientName: String
+        +ClientHandler(server: ServerIntf, connection: Connection, logger: Logger)
+        +run(): void
+        +sendMessage(msg: String): void
+    }
+
+    class Client {
+        +start(port: int): void
+        -clientStart(port: int): void
+        +main(args: String[]): void
+    }
+
+    class Settings {
+        -properties: Properties
+        +getPort(): int
+        +getHost(): String
+        +getDefaultUsername(): String
+        +getLoginPass(login: String): String
+    }
+
+    class Logger {
+        -filePath: String
+        -DT_FORMAT: DateTimeFormatter
+        +log(message: String): void
+    }
+
+    class User {
+        -name: String
+        +User(name: String)
+        +getName(): String
+    }
+
+    TCPServer --|o ServerIntf : implements
+    TCPServer *-- ClientHandler : contains
+    TCPServer o-- Connection : creates
+    TCPServer ..> Logger : uses
+
+    ClientHandler ..> ServerIntf : interacts with
+    ClientHandler o-- Connection : uses
+    ClientHandler ..> Logger : uses
+    ClientHandler ..> User : gets name from
+
+    Connection o-- User : creates
+    Connection ..> Settings : uses
+
+    Client ..> Settings : reads from
+    Client ..> Logger : uses
+
+    Logger ..> "file" : writes to
+    Settings ..> "settings.txt" : reads from
+
+
+
 ```mermaid
 classDiagram
     class TCPServer {
