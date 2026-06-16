@@ -2,9 +2,6 @@
 ![TCP/IP](https://img.shields.io/badge/Network-TCP%2FIP-orange)
 ### Основные классы и особенности приложения и методов.
 
-![Background](background.svg)
-
-
 <u> Application.java (пакет netWork)</u>
 ```Определение: Точка входа всего серверного приложения.
    Главный метод: main(String[] args) – создаёт экземпляр Settings, получает порт и запускает TCPServer.
