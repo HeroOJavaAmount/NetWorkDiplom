@@ -2,6 +2,7 @@ package netWork.client;
 
 import netWork.config.Settings;
 import netWork.fileUtil.Logger;
+import netWork.protocol.TCProtocol;
 
 import java.io.*;
 import java.net.Socket;
@@ -37,23 +38,20 @@ public class Client {
                     return;
                 }
 
-                if ("Login:".equals(line)) {
+                if (TCProtocol.REQUEST_LOGIN.equals(line)) {
                     System.out.print("Login: ");
-                    String login = scanner.nextLine();
-                    out.println(login);
+                    out.println(scanner.nextLine());
 
-                } else if ("Password:".equals(line)) {
+                } else if (TCProtocol.REQUEST_PASSWORD.equals(line)) {
                     System.out.print("Password: ");
-                    String password = scanner.nextLine();
-                    out.println(password);
+                    out.println(scanner.nextLine());
 
-                } else if ("STATUS OK".equals(line)) {
+                } else if (TCProtocol.STATUS_OK.equals(line)) {
                     System.out.println("Аутентификация успешна!");
                     break;
 
-                } else if ("STATUS WRONG".equals(line)) {
-                    System.out.println("Неверный логин или пароль. Попробуйте снова.");
-
+                } else if (TCProtocol.STATUS_WRONG.equals(line)) {
+                    System.out.println("Попробуйте снова.");
                 } else {
                     System.out.println(line);
                 }
@@ -76,8 +74,8 @@ public class Client {
             // Главный поток для отправки сообщений
             String userInput;
             while ((userInput = scanner.nextLine()) != null) {
-                if ("/exit".equalsIgnoreCase(userInput)) {
-                    out.println("/exit");
+                if (TCProtocol.isExitCommand(userInput)) {
+                    out.println(TCProtocol.EXIT_COMMAND);
                     break;
                 }
                 out.println(userInput);

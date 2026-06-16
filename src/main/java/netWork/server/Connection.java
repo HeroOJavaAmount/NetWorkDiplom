@@ -2,7 +2,7 @@ package netWork.server;
 
 import netWork.chatServiceUser.User;
 import netWork.config.Settings;
-
+import netWork.protocol.TCProtocol;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
@@ -35,24 +35,27 @@ public class Connection implements Runnable {
     public void run() {
         try {
             while (true) {
-                toClient.println("Login:");
+                toClient.println(TCProtocol.REQUEST_LOGIN);
                 String login = fromClient.readLine();
-                if (login == null || login.equalsIgnoreCase("/exit")) break;
+                if (login == null || TCProtocol.isExitCommand(login)) break;
                 user = new User(login);
+
                 if (login.equalsIgnoreCase("admin")) authenticatedChat = true;
+
                 if (authenticatedChat) {
-                    toClient.println("Password:");
+                    toClient.println(TCProtocol.REQUEST_PASSWORD);
                     String password = fromClient.readLine();
-                    if (password == null) break;
-                    if (settings.getLoginPass(login).equalsIgnoreCase(password)) {
-                        toClient.println("STATUS OK");
+                    if (password == null){
+                        break;
+                    } else if (settings.getLoginPass(login).equalsIgnoreCase(password)) {
+                        toClient.println(TCProtocol.STATUS_OK);
                         authenticated = true;
                         break;
                     } else {
-                        toClient.println("STATUS WRONG");
+                        toClient.println(TCProtocol.STATUS_WRONG);
                     }
                 } else {
-                    toClient.println("STATUS OK");
+                    toClient.println(TCProtocol.STATUS_OK);
                     authenticated = true;
                     break;
                 }

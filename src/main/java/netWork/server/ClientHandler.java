@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import netWork.fileUtil.Logger;
+import netWork.protocol.TCProtocol;
 
 public class ClientHandler implements Runnable {
     private final ServerIntf server;
@@ -25,16 +26,16 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
         try {
-            out.println("SERVER:Добро пожаловать в чат!");
+            out.println(TCProtocol.WELCOME_MESSAGE);
             String clientName = session.getUser().getName();
             logger.log("Клиент " + clientName + " вошёл в чат");
             String msg;
             while ((msg = in.readLine()) != null) {
                 logger.log(clientName + ": " + msg);
                 System.out.println(clientName + ": " + msg);
-                server.broadcastMessage("[" + clientName + "]:" + msg);
-                if ("/exit".equalsIgnoreCase(msg)) {
-                    out.println("SERVER: Goodbye!");
+                server.broadcastMessage(TCProtocol.formatBroadcast(clientName, msg));
+                if (TCProtocol.isExitCommand(msg)) {
+                    out.println(TCProtocol.GOODBYE_MESSAGE);
                     logger.log("Клиент " + clientName + " вышел из чата");
                     break;
                 }
