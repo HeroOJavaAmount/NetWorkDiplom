@@ -30,7 +30,7 @@ getLoginPass(String login) – возвращает пароль для зада
 ````
 <u>3.🔒 Session (пакет netWork.server)</u>
 ~~~
-Session - тоже только сессия. Разгрузка Connection.
+Session - тоже только сессия. Сессия физическая. Разгрузка Connection.
 ~~~
 <u>4.User (пакет netWork.chatServiceUser)</u>
 ~~~
