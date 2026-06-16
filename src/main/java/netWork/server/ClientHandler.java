@@ -22,7 +22,6 @@ public class ClientHandler implements Runnable {
         this.logger = logger;
     }
 
-
     @Override
     public void run() {
         try {
