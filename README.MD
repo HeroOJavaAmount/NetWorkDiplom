@@ -1,6 +1,7 @@
  # 🌐 Курсовой проект - NetWork (Cетевой чат - упрошенный)
 ![TCP/IP](https://img.shields.io/badge/Network-TCP%2FIP-orange)
 ### Основные классы и особенности приложения и методов.
+<span style="background-color: #FFFF00; padding: 0.2em 0.4em; border-radius: 3px;">Этот текст на жёлтом фоне</span>
 <u> Application.java (пакет netWork)</u>
 ```Определение: Точка входа всего серверного приложения.
    Главный метод: main(String[] args) – создаёт экземпляр Settings, получает порт и запускает TCPServer.
