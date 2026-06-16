@@ -80,10 +80,7 @@ TCP/IP протокол
  от сервера и выводит их в консоль.
 ~~~
 
-![Encryption](https://img.shields.io/badge/Encryption-End--to--End-brightgreen)
-![Admin](https://img.shields.io/badge/Admin-Server_Management-blue)
-![TCP/IP](https://img.shields.io/badge/Network-TCP%2FIP-orange)
-![Logging](https://img.shields.io/badge/Logging-File--based-lightgrey)
+
 
 ## UML-диаграмма последовательности (типичный сценарий)
 
