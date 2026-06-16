@@ -39,7 +39,6 @@ public class Connection implements Runnable {
                 String login = fromClient.readLine();
                 if (login == null || login.equalsIgnoreCase("/exit")) break;
                 user = new User(login);
-                if (login.equalsIgnoreCase("connection")) continue;
                 if (login.equalsIgnoreCase("admin")) authenticatedChat = true;
                 if (authenticatedChat) {
                     toClient.println("Password:");
